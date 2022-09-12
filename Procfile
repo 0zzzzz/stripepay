@@ -1,1 +1,1 @@
-web: gunicorn bookshelf.wsgi
+web: gunicorn stripepay.wsgi
