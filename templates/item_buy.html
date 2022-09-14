@@ -9,22 +9,18 @@
 </head>
 
 <body>
-    <section>
-        <div class="product">
-            <div class="description">
-                <h3>{{ item.name }}</h3>
-                <h4>{{ item.description }}</h4>
-                <hr/>
-                <div>
-                    <h5>${{ item.get_display_price }}</h5>
-                    <form action="{% url 'create-checkout-session' item.id %}" method="GET">
-                        {% csrf_token %}
-                        <button type="submit">Buy</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
+<section>
+    <div class="product">
+        <h3>{{ item.name }}</h3>
+        <h4>{{ item.description }}</h4>
+        <hr/>
+        <h5>${{ item.get_display_price }}</h5>
+            <form action="{% url 'create-checkout-session' item.id %}" method="GET">
+                {% csrf_token %}
+                <button type="submit">Buy</button>
+            </form>
+    </div>
+</section>
 </body>
 
 </html>
