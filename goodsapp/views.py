@@ -27,16 +27,6 @@ class CreateCheckoutSessionAPIView(APIView):
                     },
                     'quantity': 1
                 },
-                {
-                    'price_data': {
-                        'currency': 'usd',
-                        'unit_amount': item.price,
-                        'product_data': {
-                            'name': item.name
-                        },
-                    },
-                    'quantity': 1
-                }
             ],
             mode='payment',
             success_url=f'http://{request.build_absolute_uri().split("/")[2]}/success/',
