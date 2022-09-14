@@ -18,6 +18,10 @@ docker-compose up
 
 docker-compose run web python manage.py createsuperuser -- создать суперпользователя
 ___
+## Модель заказа:
+
+заказы можно создать в админке
+___
 
 ## API эндпойнты:
 
