@@ -11,7 +11,7 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 class CreateCheckoutSessionAPIView(APIView):
-    """Создает сеанс оформления заказа на сервисе stripe"""
+    """Создает сеанс оформления единственного продукта на сервисе stripe"""
     def get(self, request, *args, **kwargs):
         item = Item.objects.get(id=self.kwargs["pk"])
         checkout_session = stripe.checkout.Session.create(
@@ -22,10 +22,11 @@ class CreateCheckoutSessionAPIView(APIView):
                         'currency': 'usd',
                         'unit_amount': item.price,
                         'product_data': {
-                            'name': item.name
+                            'name': item.name,
                         },
                     },
                     'quantity': 1
+
                 },
             ],
             mode='payment',
@@ -37,7 +38,7 @@ class CreateCheckoutSessionAPIView(APIView):
 
 
 class CreateCheckoutSessionFromOrderAPIView(APIView):
-    """Создает сеанс оформления заказа на сервисе stripe из модели заказа"""
+    """Создает сеанс оформления заказа на сервисе stripe из модели заказа (Order)"""
     def get(self, request, *args, **kwargs):
         order = OrderItem.objects.filter(order=self.kwargs["pk"])
         order_list = []
@@ -62,8 +63,9 @@ class CreateCheckoutSessionFromOrderAPIView(APIView):
 
         return redirect(checkout_session.url)
 
+
 class ItemBuyAPIView(APIView):
-    """Простая страница заказа, позволяет купить продукт"""
+    """Cтраница продукта, позволяет купить один продукт"""
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'item_buy.html'
 
@@ -74,10 +76,12 @@ class ItemBuyAPIView(APIView):
             content_type='text/html',
         )
 
+
 class OrderBuyAPIView(APIView):
-    """Простая страница заказа, позволяет купить один продукт"""
+    """Cтраница заказа, позволяет приобрести заказ целиком"""
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'order_buy.html'
+    
     def get(self, request, pk):
         order = OrderItem.objects.filter(order=pk)
         return Response(
